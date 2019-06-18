@@ -95,18 +95,18 @@ def main(args):
             steps = task["steps"]
             args = task["args"]
             reader = task["reader"]
-            try:
-                steps += 1
-                task["steps"] = steps
-                outputs = run_train(global_resource, task)
 
-                print("epoch: %d, progress: %d/%d, step: %d, ave loss: %f, "
-                      "ave acc: %f, speed: %f steps/s" %
-                      (current_epoch, current_example,
-                      task["num_train_examples"], steps, outputs["loss"], 
-                      outputs["accuracy"], 1.0 / used_time))
+            steps += 1
+            task["steps"] = steps
+            outputs = run_train(global_resource, task)
 
-                time_begin = time.time()
+            print("epoch: %d, progress: %d/%d, step: %d, ave loss: %f, "
+                  "ave acc: %f, speed: %f steps/s" %
+                  (current_epoch, current_example,
+                  task["num_train_examples"], steps, outputs["loss"], 
+                  outputs["accuracy"], 1.0 / used_time))
+
+            time_begin = time.time()
 
 
             except fluid.core.EOFException:

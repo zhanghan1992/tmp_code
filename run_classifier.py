@@ -104,7 +104,7 @@ def main(args):
                       "ave acc: %f, speed: %f steps/s" %
                       (current_epoch, current_example,
                       task["num_train_examples"], steps, outputs["loss"], 
-                      outputs["accuracy"], args.skip_steps / used_time))
+                      outputs["accuracy"], 1.0 / used_time))
 
                 time_begin = time.time()
 

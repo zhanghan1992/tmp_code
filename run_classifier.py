@@ -92,14 +92,13 @@ def main(args):
         task_train_init(global_resource, task)
         time_begin = time.time()
         while True:
-            steps = task["steps"]
+            steps += 1
             args = task["args"]
             reader = task["reader"]
-
-            steps += 1
-            task["steps"] = steps
             outputs = run_train(global_resource, task)
 
+            current_example, current_epoch = reader.get_train_progress()
+            used_time = time.time() - time_begin
             print("epoch: %d, progress: %d/%d, step: %d, ave loss: %f, "
                   "ave acc: %f, speed: %f steps/s" %
                   (current_epoch, current_example,

@@ -100,24 +100,14 @@ def main(args):
                 task["steps"] = steps
                 outputs = run_train(global_resource, task)
 
-                if steps % args.skip_steps == 0:
-                    current_example, current_epoch = reader.get_train_progress()
-                    time_end = time.time()
-                    used_time = time_end - time_begin
+                print("epoch: %d, progress: %d/%d, step: %d, ave loss: %f, "
+                      "ave acc: %f, speed: %f steps/s" %
+                      (current_epoch, current_example,
+                      task["num_train_examples"], steps, outputs["loss"], 
+                      outputs["accuracy"], args.skip_steps / used_time))
 
-                    print("epoch: %d, progress: %d/%d, step: %d, ave loss: %f, "
-                          "ave acc: %f, speed: %f steps/s" %
-                          (current_epoch, current_example,
-                          task["num_train_examples"], steps, outputs["loss"], 
-                          outputs["accuracy"], args.skip_steps / used_time))
+                time_begin = time.time()
 
-                    time_begin = time.time()
-
-                if steps % args.save_steps == 0:
-                    save_checkpoint(global_resource, task)
-                
-                if steps % args.validation_steps == 0:
-                    run_eval(global_resource, task)
 
             except fluid.core.EOFException:
                 save_checkpoint(global_resource, task)
